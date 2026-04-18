@@ -62,6 +62,18 @@
       </div>
     </section>
 
+    <!-- Finger Movement Animation -->
+    <section class="transition-section glass-card" id="transitionSection" style="display:none">
+      <div class="transition-header">
+        <span class="transition-title">🎯 Finger Movement Guide</span>
+        <span class="transition-chord-display" id="transitionChordDisplay"></span>
+      </div>
+      <div class="transition-body">
+        <canvas id="transitionCanvas" width="340" height="170"></canvas>
+        <div class="finger-move-hints" id="fingerMoveHints"></div>
+      </div>
+    </section>
+
     <!-- Chord Diagrams Grid -->
     <section class="chords-section">
       <h2 class="section-title">Chord Library</h2>
@@ -73,7 +85,7 @@
             <canvas class="chord-canvas" id="canvas-G" width="160" height="200"></canvas>
           </div>
           <div class="chord-fingers-legend" id="legend-G"></div>
-          <div class="chord-tip">All 6 strings ring</div>
+          <div class="chord-tip">All 6 strings ring ✓</div>
         </div>
         <!-- D Chord -->
         <div class="chord-card glass-card" id="card-D" onclick="selectChord('D')">
@@ -100,7 +112,7 @@
             <canvas class="chord-canvas" id="canvas-C" width="160" height="200"></canvas>
           </div>
           <div class="chord-fingers-legend" id="legend-C"></div>
-          <div class="chord-tip">5 strings, mute low E</div>
+          <div class="chord-tip">5 strings, mute low E ✓</div>
         </div>
       </div>
     </section>
