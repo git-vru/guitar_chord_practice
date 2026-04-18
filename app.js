@@ -2,20 +2,21 @@
 //  CHORD DATA
 //  open/mute arrays: index 0 = string 1 (high e), index 5 = string 6 (low E)
 //  dots: string 1 = high e, string 6 = low E
-//  finger: 1=index, 2=middle, 3=ring, 4=pinky
+//  RULE: B string always finger 3 (ring), high-e always finger 4 (pinky)
+//        Remaining strings use finger 1 (index) & 2 (middle) as optimal
 // ============================================================
 const CHORDS = {
   G: {
     label: 'G',
-    // All 6 strings ring. Open: D and G. Fretted: low-E(3), A(2), B(3), high-e(3)
+    // All 6 strings ring. Open: D, G. Dots: low-E(3), A(2), B(3), high-e(3)
     open: [false, false, true, true, false, false], // G(idx2) and D(idx3) open
     mute: [false, false, false, false, false, false],
     frets: 3,
     dots: [
-      { string: 6, fret: 3, finger: 2 }, // low E,  fret 3, middle
-      { string: 5, fret: 2, finger: 1 }, // A,      fret 2, index
-      { string: 2, fret: 3, finger: 3 }, // B,      fret 3, ring
-      { string: 1, fret: 3, finger: 4 }, // high e, fret 3, pinky
+      { string: 5, fret: 2, finger: 1 }, // A,      fret 2 — index
+      { string: 6, fret: 3, finger: 2 }, // low E,  fret 3 — middle
+      { string: 2, fret: 3, finger: 3 }, // B,      fret 3 — ring   🔒
+      { string: 1, fret: 3, finger: 4 }, // high e, fret 3 — pinky  🔒
     ],
     legend: [
       { finger: 1, note: 'Index – A string, fret 2' },
@@ -26,14 +27,14 @@ const CHORDS = {
   },
   D: {
     label: 'D',
-    // Skip low-E and A. Open: D. Fretted: G(2), B(3), high-e(3)
+    // Skip low-E, A. Open: D. Dots: G(2), B(3), high-e(3)
     open: [false, false, false, true, false, false],  // D(idx3) open
     mute: [false, false, false, false, true,  true],  // A(idx4), low-E(idx5) muted
     frets: 3,
     dots: [
-      { string: 3, fret: 2, finger: 1 }, // G,      fret 2, index
-      { string: 2, fret: 3, finger: 3 }, // B,      fret 3, ring
-      { string: 1, fret: 3, finger: 4 }, // high e, fret 3, pinky
+      { string: 3, fret: 2, finger: 1 }, // G,      fret 2 — index
+      { string: 2, fret: 3, finger: 3 }, // B,      fret 3 — ring   🔒
+      { string: 1, fret: 3, finger: 4 }, // high e, fret 3 — pinky  🔒
     ],
     legend: [
       { finger: 1, note: 'Index – G string, fret 2' },
@@ -43,15 +44,15 @@ const CHORDS = {
   },
   Em: {
     label: 'Em',
-    // All 6 strings ring. Open: low-E and G. Fretted: A(2), D(2), B(3), high-e(3)
+    // All 6 strings ring. Open: low-E, G. Dots: A(2), D(2), B(3), high-e(3)
     open: [false, false, true, false, false, true],  // G(idx2) and low-E(idx5) open
     mute: [false, false, false, false, false, false],
     frets: 3,
     dots: [
-      { string: 5, fret: 2, finger: 1 }, // A,      fret 2, index
-      { string: 4, fret: 2, finger: 2 }, // D,      fret 2, middle
-      { string: 2, fret: 3, finger: 3 }, // B,      fret 3, ring
-      { string: 1, fret: 3, finger: 4 }, // high e, fret 3, pinky
+      { string: 5, fret: 2, finger: 1 }, // A,      fret 2 — index
+      { string: 4, fret: 2, finger: 2 }, // D,      fret 2 — middle
+      { string: 2, fret: 3, finger: 3 }, // B,      fret 3 — ring   🔒
+      { string: 1, fret: 3, finger: 4 }, // high e, fret 3 — pinky  🔒
     ],
     legend: [
       { finger: 1, note: 'Index – A string, fret 2' },
@@ -62,21 +63,22 @@ const CHORDS = {
   },
   C: {
     label: 'C',
-    // Skip low-E. Open: G. Fretted: A(3), D(2), B(3), high-e(3)
+    // Skip low-E. Open: G. Dots: D(2), A(3), B(3), high-e(3)
+    // Index on D (lower fret), middle stretches to A (higher fret)
     open: [false, false, true, false, false, false],  // G(idx2) open
     mute: [false, false, false, false, false, true],  // low-E(idx5) muted
     frets: 3,
     dots: [
-      { string: 5, fret: 3, finger: 3 }, // A,      fret 3, ring
-      { string: 4, fret: 2, finger: 2 }, // D,      fret 2, middle
-      { string: 2, fret: 3, finger: 4 }, // B,      fret 3, pinky
-      { string: 1, fret: 3, finger: 1 }, // high e, fret 3, index
+      { string: 4, fret: 2, finger: 1 }, // D,      fret 2 — index
+      { string: 5, fret: 3, finger: 2 }, // A,      fret 3 — middle
+      { string: 2, fret: 3, finger: 3 }, // B,      fret 3 — ring   🔒
+      { string: 1, fret: 3, finger: 4 }, // high e, fret 3 — pinky  🔒
     ],
     legend: [
-      { finger: 1, note: 'Index – High e, fret 3' },
-      { finger: 2, note: 'Middle – D string, fret 2' },
-      { finger: 3, note: 'Ring – A string, fret 3' },
-      { finger: 4, note: 'Pinky – B string, fret 3' },
+      { finger: 1, note: 'Index – D string, fret 2' },
+      { finger: 2, note: 'Middle – A string, fret 3' },
+      { finger: 3, note: 'Ring – B string, fret 3' },
+      { finger: 4, note: 'Pinky – High e, fret 3' },
     ]
   }
 };
