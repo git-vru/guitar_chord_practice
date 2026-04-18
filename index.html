@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GuitarFlow — Chord Switcher Trainer</title>
+  <meta name="description" content="Practice switching between G, D, Em, and C guitar chords with a 15-minute training timer and visual fingering guides." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Background blobs -->
+  <div class="bg-blob blob-1"></div>
+  <div class="bg-blob blob-2"></div>
+  <div class="bg-blob blob-3"></div>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="logo">
+      <span class="logo-icon">🎸</span>
+      <span class="logo-text">GuitarFlow</span>
+    </div>
+    <div class="header-sub">Chord Switcher Trainer</div>
+  </header>
+
+  <!-- Main -->
+  <main class="main">
+
+    <!-- Timer Section -->
+    <section class="timer-section glass-card">
+      <div class="timer-ring-wrapper">
+        <svg class="timer-ring" viewBox="0 0 200 200" id="timerSvg">
+          <circle class="ring-track" cx="100" cy="100" r="88" />
+          <circle class="ring-progress" cx="100" cy="100" r="88" id="ringProgress" />
+        </svg>
+        <div class="timer-inner">
+          <div class="timer-display" id="timerDisplay">15:00</div>
+          <div class="timer-label" id="timerLabel">Ready</div>
+        </div>
+      </div>
+      <div class="timer-controls">
+        <button class="btn btn-primary" id="startBtn" onclick="startTimer()">▶ Start</button>
+        <button class="btn btn-ghost" id="resetBtn" onclick="resetTimer()">↺ Reset</button>
+      </div>
+    </section>
+
+    <!-- Chord Switch Prompt -->
+    <section class="prompt-section glass-card" id="promptSection">
+      <div class="prompt-label">Switch to →</div>
+      <div class="prompt-chord" id="promptChord">—</div>
+      <div class="prompt-from" id="promptFrom"></div>
+      <div class="prompt-controls">
+        <label class="switch-interval-label">New chord every</label>
+        <div class="interval-selector">
+          <button class="interval-btn active" data-sec="10" onclick="setInterval_(this,10)">10s</button>
+          <button class="interval-btn" data-sec="15" onclick="setInterval_(this,15)">15s</button>
+          <button class="interval-btn" data-sec="20" onclick="setInterval_(this,20)">20s</button>
+          <button class="interval-btn" data-sec="30" onclick="setInterval_(this,30)">30s</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Chord Diagrams Grid -->
+    <section class="chords-section">
+      <h2 class="section-title">Chord Library</h2>
+      <div class="chords-grid" id="chordsGrid">
+        <!-- G Chord -->
+        <div class="chord-card glass-card" id="card-G" onclick="selectChord('G')">
+          <div class="chord-name">G</div>
+          <div class="chord-diagram-wrapper">
+            <canvas class="chord-canvas" id="canvas-G" width="160" height="200"></canvas>
+          </div>
+          <div class="chord-fingers-legend" id="legend-G"></div>
+          <div class="chord-tip">All 6 strings ring</div>
+        </div>
+        <!-- D Chord -->
+        <div class="chord-card glass-card" id="card-D" onclick="selectChord('D')">
+          <div class="chord-name">D</div>
+          <div class="chord-diagram-wrapper">
+            <canvas class="chord-canvas" id="canvas-D" width="160" height="200"></canvas>
+          </div>
+          <div class="chord-fingers-legend" id="legend-D"></div>
+          <div class="chord-tip">Strings 1–4 only</div>
+        </div>
+        <!-- Em Chord -->
+        <div class="chord-card glass-card" id="card-Em" onclick="selectChord('Em')">
+          <div class="chord-name">Em</div>
+          <div class="chord-diagram-wrapper">
+            <canvas class="chord-canvas" id="canvas-Em" width="160" height="200"></canvas>
+          </div>
+          <div class="chord-fingers-legend" id="legend-Em"></div>
+          <div class="chord-tip">All 6 strings ring</div>
+        </div>
+        <!-- C Chord -->
+        <div class="chord-card glass-card" id="card-C" onclick="selectChord('C')">
+          <div class="chord-name">C</div>
+          <div class="chord-diagram-wrapper">
+            <canvas class="chord-canvas" id="canvas-C" width="160" height="200"></canvas>
+          </div>
+          <div class="chord-fingers-legend" id="legend-C"></div>
+          <div class="chord-tip">5 strings, mute low E</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Progress / Stats -->
+    <section class="stats-section">
+      <div class="stat-card glass-card">
+        <div class="stat-value" id="statSwitches">0</div>
+        <div class="stat-label">Chord Switches</div>
+      </div>
+      <div class="stat-card glass-card">
+        <div class="stat-value" id="statCurrent">—</div>
+        <div class="stat-label">Current Chord</div>
+      </div>
+      <div class="stat-card glass-card">
+        <div class="stat-value" id="statTime">15:00</div>
+        <div class="stat-label">Time Remaining</div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Completion overlay -->
+  <div class="overlay" id="overlay">
+    <div class="overlay-card glass-card">
+      <div class="overlay-emoji">🎉</div>
+      <h2 class="overlay-title">Session Complete!</h2>
+      <p class="overlay-sub">You practiced for 15 minutes.</p>
+      <div class="overlay-stat">
+        <span class="overlay-big" id="overlaySwitches">0</span>
+        <span class="overlay-unit">chord switches</span>
+      </div>
+      <button class="btn btn-primary" onclick="resetTimer()">Practice Again</button>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
